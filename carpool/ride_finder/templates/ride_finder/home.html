@@ -1,0 +1,17 @@
+{% extends "ride_finder/base.html" %}
+{% block content %}
+    <h1>Rides</h1>
+    {% for ride in rides %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ ride.creator.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ ride.creator }}</a>
+              <small class="text-muted"> departure date: {{ ride.date_departure|date:"M d, Y - P" }} </small>
+            </div>
+            <h2><a class="article-title" href="{% url 'ride-detail' ride.id %}">{{ ride.destination }}</a></h2>
+            <p class="article-content">{{ ride.start }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

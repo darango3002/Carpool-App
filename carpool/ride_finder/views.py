@@ -7,10 +7,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Ride, User_Car
-from .forms import RideForm
+from .models import Ride, Car
+from .forms import RideForm, CarForm
 
-# Create your views here.
 def home(request):
     context = {
         'rides': Ride.objects.all()
@@ -40,10 +39,9 @@ class RideCreateView(LoginRequiredMixin, CreateView):
         return kwargs
 
         
-
 class RideUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Ride
-    fields = ['user_car',
+    fields = ['car',
               'start',
               'destination',
               'date_departure',
@@ -69,6 +67,16 @@ class RideDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == ride.creator:
             return True
         return False
+    
+class CarCreateView(LoginRequiredMixin, CreateView):
+    model = Car
+    form_class = CarForm
+    success_url = "/ride/new/"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
         
 def about(request):
     return render(request, 'ride_finder/about.html')

@@ -5,6 +5,7 @@ from django.urls import reverse
 from address.models import AddressField
 
 class Car(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     make = models.CharField(max_length=50)
     model = models.CharField(max_length=50)
@@ -14,16 +15,9 @@ class Car(models.Model):
     def __str__(self):
         return self.name    
 
-class User_Car(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.car.name
-
 class Ride(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    user_car = models.ForeignKey(User_Car, on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True)
     start = AddressField(null=True, related_name="start_address")
     destination = AddressField(null=True)
     date_posted = models.DateTimeField(default=timezone.now)

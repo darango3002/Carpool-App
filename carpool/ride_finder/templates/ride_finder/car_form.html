@@ -5,8 +5,7 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="'border-bottom mb-4">Create Ride</legend>
-                <a href="{% url 'car-create' %}">New Car</a>
+                <legend class="'border-bottom mb-4">Create Car</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">

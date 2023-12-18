@@ -1,15 +1,26 @@
 from django import forms
-from .models import User_Car, Ride
+from .models import Car, Ride
 
 class RideForm(forms.ModelForm):
-    user_car = forms.ModelChoiceField(queryset=User_Car.objects.all().filter())
 
     def __init__(self, *args, **kwargs):
         self.user= kwargs.pop('user')
         super(RideForm,self).__init__(*args,**kwargs)
-        self.fields['user_car'] = forms.ModelChoiceField(queryset=User_Car.objects.all().filter(user=self.user))
+        self.fields['car'] = forms.ModelChoiceField(queryset=Car.objects.all().filter(user=self.user))
 
 
     class Meta:
         model = Ride
-        fields = ['user_car', 'start', 'destination', 'date_departure', 'seats']
+        fields = ['car', 'start', 'destination', 'date_departure', 'seats']
+
+
+class CarForm(forms.ModelForm):
+
+    # def __init__(self, *args, **kwargs):
+    #     self.user= kwargs.pop('user')
+    #     super(RideForm,self).__init__(*args,**kwargs)
+    #     self.fields['car'] = forms.ModelChoiceField(queryset=Car.objects.all().filter(user=self.user))
+
+    class Meta:
+        model = Car
+        fields = ['name', 'make', 'model', 'color', 'year']

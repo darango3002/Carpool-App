@@ -8,6 +8,7 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Ride, User_Car
+from .forms import RideForm
 
 # Create your views here.
 def home(request):
@@ -27,21 +28,16 @@ class RideDetailView(DetailView):
 
 class RideCreateView(LoginRequiredMixin, CreateView):
     model = Ride
-    fields = ['user_car',
-              'start',
-              'destination',
-              'date_departure',
-              'seats']
+    form_class = RideForm
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
-    
-    def get_form_kwargs(self):
-        # pass "user" keyword argument with the current user to your form
-        kwargs = super(RideCreateView, self).get_form_kwargs()
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(RideCreateView, self).get_form_kwargs(*args, **kwargs)
         kwargs['user'] = self.request.user
-        return kwargs   
+        return kwargs
 
         
 

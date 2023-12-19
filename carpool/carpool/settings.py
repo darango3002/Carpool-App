@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-lmbp2-17c)%0o=1o@=!z+5lbh#1-u4dqm)=@*m&hu_&&3t8r-x"
-
-GOOGLE_API_KEY = 'AIzaSyDJX0QnI5tPRXJGpVI8JUPXutO6VsVukjY'
+load_dotenv()
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -124,6 +126,12 @@ PHONENUMBER_DEFAULT_REGION = "US"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+STATIC_FILE_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 
 STATIC_URL = "/static/"
 

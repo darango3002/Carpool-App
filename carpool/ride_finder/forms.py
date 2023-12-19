@@ -1,5 +1,6 @@
 from django import forms
 from .models import Car, Ride
+from address.forms import AddressField
 
 class RideForm(forms.ModelForm):
 
@@ -7,7 +8,7 @@ class RideForm(forms.ModelForm):
         self.user= kwargs.pop('user')
         super(RideForm,self).__init__(*args,**kwargs)
         self.fields['car'] = forms.ModelChoiceField(queryset=Car.objects.all().filter(user=self.user))
-
+        self.fields['start'] = AddressField()
 
     class Meta:
         model = Ride

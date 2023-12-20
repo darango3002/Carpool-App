@@ -150,3 +150,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 LOGIN_REDIRECT_URL = "ridefinder-home"
 
 LOGIN_URL = 'login'
+
+BASE_COUNTRY = 'US'

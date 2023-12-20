@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import User
 from django.urls import reverse
 from address.models import AddressField
@@ -22,7 +23,7 @@ class Ride(models.Model):
     destination = AddressField(null=True)
     date_posted = models.DateTimeField(default=timezone.now)
     date_departure = models.DateTimeField()
-    seats = models.IntegerField(default=1)
+    seats = models.IntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(10)])
     
     def __str__(self):
         return f'{self.creator.username}\'s Ride'

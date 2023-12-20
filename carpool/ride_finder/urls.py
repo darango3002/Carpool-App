@@ -18,3 +18,6 @@ urlpatterns = [
     path('car/new/', CarCreateView.as_view(), name='car-create'),
     path('about/', views.about, name='ridefinder-about')
 ]
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

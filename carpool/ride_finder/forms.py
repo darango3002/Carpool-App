@@ -1,14 +1,19 @@
 from django import forms
+from .widgets import XDSoftDateTimePickerInput
 from .models import Car, Ride
 from address.forms import AddressField
 
 class RideForm(forms.ModelForm):
-
+    date_departure = forms.DateTimeField(
+        label="Departure Date (D/M/Y H:M)",
+        input_formats=['%d/%m/%Y %H:%M'], 
+        widget=XDSoftDateTimePickerInput()
+    )
+    
     def __init__(self, *args, **kwargs):
         self.user= kwargs.pop('user')
         super(RideForm,self).__init__(*args,**kwargs)
         self.fields['car'] = forms.ModelChoiceField(queryset=Car.objects.all().filter(user=self.user))
-        self.fields['start'] = AddressField()
 
     class Meta:
         model = Ride

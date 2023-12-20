@@ -1,7 +1,13 @@
 {% extends "ride_finder/base.html" %}
-<head>
-    {{ form.media }} <!-- needed for JS/GoogleMaps lookup -->
-</head>
+{% load static %}
+
+{% block extend_head %}
+    {{ form.media }} <!-- needed for JS/GoogleMaps lookup --> 
+    <!-- XDSoft DateTimePicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+{% endblock %}
+
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
@@ -17,4 +23,14 @@
             </div>
         </form>
     </div>
-{% endblock content %}  
+{% endblock content %} 
+{% block extend_footer %}
+
+<script type="text/javascript">
+    var google_api_key = "{{google_api_key|safe}}"
+    var base_country = "{{base_country|safe}}"
+</script>
+
+<script src="{% static 'ride_finder/js/google_places.js' %}"></script>
+
+{% endblock %}

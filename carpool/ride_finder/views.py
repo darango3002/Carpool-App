@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin  
 from django.views.generic import (
     ListView,
@@ -9,6 +10,8 @@ from django.views.generic import (
 )
 from .models import Ride, Car
 from .forms import RideForm, CarForm
+from address.models import Address
+from django.conf import settings
 
 def home(request):
     context = {
@@ -31,12 +34,19 @@ class RideCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
+        messages.success(request=self.request, message="Ride Successfully Created!")
         return super().form_valid(form)
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super(RideCreateView, self).get_form_kwargs(*args, **kwargs)
         kwargs['user'] = self.request.user
         return kwargs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['google_api_key'] = settings.GOOGLE_API_KEY
+        context['base_country'] = settings.BASE_COUNTRY
+        return context
 
         
 class RideUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

@@ -51,16 +51,18 @@ class RideCreateView(LoginRequiredMixin, CreateView):
         
 class RideUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Ride
-    fields = ['car',
-              'start',
-              'destination',
-              'date_departure',
-              'seats']
+    form_class = RideForm
     template_name_suffix = "_update_form"
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
+        messages.success(request=self.request, message="Ride Successfully Updated!")
         return super().form_valid(form)
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(RideUpdateView, self).get_form_kwargs(*args, **kwargs)
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def test_func(self):
         ride = self.get_object()

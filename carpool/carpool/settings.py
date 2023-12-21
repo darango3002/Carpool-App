@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "ride_finder.apps.RideFinderConfig",
     "users.apps.UsersConfig",
+    "clubs.apps.ClubsConfig",
     "phonenumber_field",
     "address",
     "crispy_forms",
